@@ -1,0 +1,34 @@
+{
+  "name": "hyperlog-webtorrent-seed",
+  "version": "1.0.0",
+  "description": "seed webtorrent magnet links from a hyperlog",
+  "main": "index.js",
+  "directories": {
+    "example": "example"
+  },
+  "dependencies": {
+    "mkdirp": "^0.5.1",
+    "parse-torrent": "^5.7.1"
+  },
+  "keywords": [
+    "hyperlog",
+    "webtorrent",
+    "seed",
+    "magnet",
+    "mirror"
+  ],
+  "author": "substack",
+  "license": "BSD",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/substack/hyperlog-webtorrent-seed.git"
+  },
+  "bugs": {
+    "url": "https://github.com/substack/hyperlog-webtorrent-seed/issues"
+  },
+  "homepage": "https://github.com/substack/hyperlog-webtorrent-seed#readme"
+}
