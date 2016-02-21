@@ -22,7 +22,7 @@ var seeder = hseed({
 
 var wseed = require('../')
 wseed({
-  path: '/tmp/webtorrent',
+  dir: '/tmp/webtorrent',
   seeder: seeder,
   client: webtorrent()
 })

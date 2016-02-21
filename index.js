@@ -6,7 +6,7 @@ var path = require('path')
 module.exports = function (opts) {
   var client = opts.client
   var seeder = opts.seeder
-  var dir = opts.path || opts.dir
+  var dir = opts.dir
 
   seeder.on('seed', function (link) {
     var t = parseTorrent(link)
