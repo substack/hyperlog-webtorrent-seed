@@ -31,7 +31,7 @@ var seeder = hseed({
 
 var wseed = require('hyperlog-webtorrent-seed')
 wseed({
-  path: '/tmp/webtorrent',
+  dir: '/tmp/webtorrent',
   seeder: seeder,
   client: webtorrent()
 })
