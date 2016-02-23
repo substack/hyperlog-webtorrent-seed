@@ -10,6 +10,9 @@ module.exports = function (opts) {
 
   seeder.on('seed', function (link) {
     var t = parseTorrent(link)
+    for (var i = 0; i < client.torrents.length; i++) {
+      if (client[i].infoHash === t.infoHash) return
+    }
     var tdir = path.join(dir, t.infoHash)
     fs.readdir(tdir, function (err, files) {
       if (!files) client.add(link, onadd)
