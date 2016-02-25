@@ -1,6 +1,6 @@
 {
   "name": "hyperlog-webtorrent-seed",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "seed webtorrent magnet links from a hyperlog",
   "main": "index.js",
   "directories": {
