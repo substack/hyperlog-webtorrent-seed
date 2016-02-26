@@ -24,7 +24,7 @@ module.exports = function (opts) {
     function onadd (s) {
       var tdir = path.join(dir, t.infoHash)
       mkdirp(tdir, function () {
-        t.files.forEach(function (file) {
+        s.files.forEach(function (file) {
           file.createReadStream()
             .pipe(fs.createWriteStream(path.join(tdir, t.infoHash)))
         })
