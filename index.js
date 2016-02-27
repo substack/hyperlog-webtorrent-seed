@@ -26,7 +26,7 @@ module.exports = function (opts) {
       mkdirp(tdir, function () {
         s.files.forEach(function (file) {
           file.createReadStream()
-            .pipe(fs.createWriteStream(path.join(tdir, t.infoHash)))
+            .pipe(fs.createWriteStream(path.join(tdir, file.path)))
         })
       })
     }
