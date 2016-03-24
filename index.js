@@ -11,10 +11,8 @@ module.exports = function (opts) {
 
   seeder.on('seed', function (link) {
     var t = parseTorrent(link)
-    for (var i = 0; i < client.torrents.length; i++) {
-      var c = client.torrents[i]
-      if (c && c.infoHash === t.infoHash) return
-    }
+    if (client.get(t.infoHash)) return
+
     db.get(t.infoHash, function (err, torrentFile) {
       if (notFound(err)) {
         client.add(link, { store: store }, onadd)
@@ -32,9 +30,7 @@ module.exports = function (opts) {
   })
   seeder.on('unseed', function (link) {
     var t = parseTorrent(link)
-    for (var i = 0; i < client.torrents.length; i++) {
-      if (client[i] && client[i].infoHash === t.infoHash) client[i].destroy()
-    }
+    client.remove(t.infoHash)
   })
   return self
 }
