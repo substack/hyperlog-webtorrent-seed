@@ -1,40 +1,34 @@
 var parseTorrent = require('parse-torrent')
 var mkdirp = require('mkdirp')
-var fs = require('fs')
-var path = require('path')
+var defaults = require('levelup-defaults')
+var EventEmitter = require('events').EventEmitter
 
 module.exports = function (opts) {
   var client = opts.client
   var seeder = opts.seeder
-  var dir = opts.dir
+  var db = defaults(opts.db, { valueEncoding: 'binary' })
+  var store = opts.store
+  var self = new EventEmitter
 
   seeder.on('seed', function (link) {
     var t = parseTorrent(link)
     for (var i = 0; i < client.torrents.length; i++) {
-      if (client[i] && client[i].infoHash === t.infoHash) return
+      var c = client.torrents[i]
+      if (c && c.infoHash === t.infoHash) return
     }
-    var tdir = path.join(dir, t.infoHash)
-    fs.readdir(tdir, function (err, files) {
-      if (!files) client.add(link, onadd)
-      else {
-        var tfiles = files.map(function (f) { return path.join(tdir, f) })
-        client.seed(tfiles, onseed)
+    db.get(t.infoHash, function (err, torrentFile) {
+      if (notFound(err)) {
+        client.add(link, { store: store }, onadd)
+      } else if (err) {
+        self.emit('error', err)
+      } else {
+        client.add(torrentFile, { store: store }, function (torrent) {})
       }
     })
-    function onadd (s) {
-      var tdir = path.join(dir, t.infoHash)
-      mkdirp(tdir, function () {
-        s.files.forEach(function (file) {
-          file.createReadStream()
-            .pipe(fs.createWriteStream(path.join(tdir, file.path)))
-        })
+    function onadd (torrent) {
+      db.put(t.infoHash, torrent.torrentFile, function (err) {
+        if (err) self.emit('error', err)
       })
-    }
-    function onseed (s) {
-      if (s.infoHash !== t.infoHash) {
-        client.remove(s)
-        client.add(link, onadd)
-      }
     }
   })
   seeder.on('unseed', function (link) {
@@ -43,4 +37,9 @@ module.exports = function (opts) {
       if (client[i] && client[i].infoHash === t.infoHash) client[i].destroy()
     }
   })
+  return self
+}
+
+function notFound (err) {
+  return err && (/^notfound/i.test(err.message) || err.notFound)
 }

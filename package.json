@@ -7,6 +7,7 @@
     "example": "example"
   },
   "dependencies": {
+    "levelup-defaults": "^1.0.2",
     "mkdirp": "^0.5.1",
     "parse-torrent": "^5.7.1"
   },

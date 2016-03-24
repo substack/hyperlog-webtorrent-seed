@@ -1,6 +1,7 @@
 var webtorrent = require('webtorrent')
 var level = require('level')
 var swarmlog = require('swarmlog')
+var fstore = require('fs-chunk-store')
 
 var log = swarmlog({
   id: process.argv[2],
@@ -22,7 +23,13 @@ var seeder = hseed({
 
 var wseed = require('../')
 wseed({
-  dir: '/tmp/webtorrent',
+  db: level('/tmp/webtorrent-mirror.wseed'),
+  store: function (n, opts) {
+    return fstore(n, {
+      path: '/tmp/webtorrent-mirror.store',
+      length: opts.length
+    })
+  },
   seeder: seeder,
   client: webtorrent()
 })
