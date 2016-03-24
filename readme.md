@@ -105,10 +105,15 @@ Seed to webtorrent given:
 [abstract-chunk-store][4] instance given a `chunkLength` and an `opts.length` of
 the entire file
 
+In the browser, use [idb-chunk-store][5] as `opts.store` and
+[level-browserify][6] for the `opts.db`.
+
 [1]: https://npmjs.com/package/webtorrent
 [2]: https://npmjs.com/package/hyperlog-seed
 [3]: https://npmjs.com/package/level
-[3]: https://npmjs.com/package/abstract-chunk-store
+[4]: https://npmjs.com/package/abstract-chunk-store
+[5]: https://npmjs.com/package/idb-chunk-store
+[6]: https://npmjs.com/package/level-browserify
 
 ## w.on('error', function (err) {})
 
