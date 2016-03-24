@@ -94,7 +94,7 @@ $ electron-spawn `which webtorrent` 'magnet:?xt=urn:btih:8409223bb06b008d0ef7efe
 var wseed = require('hyperlog-webtorrent-seed')
 ```
 
-## wseed(opts)
+## var w = wseed(opts)
 
 Seed to webtorrent given:
 
@@ -109,6 +109,10 @@ the entire file
 [2]: https://npmjs.com/package/hyperlog-seed
 [3]: https://npmjs.com/package/level
 [3]: https://npmjs.com/package/abstract-chunk-store
+
+## w.on('error', function (err) {})
+
+Internal errors are available in the `'error'` event.
 
 # license
 
