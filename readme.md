@@ -10,6 +10,7 @@ Mirror content from a swarmlog:
 var webtorrent = require('webtorrent')
 var level = require('level')
 var swarmlog = require('swarmlog')
+var fstore = require('fs-chunk-store')
 
 var log = swarmlog({
   id: process.argv[2],
@@ -31,7 +32,13 @@ var seeder = hseed({
 
 var wseed = require('hyperlog-webtorrent-seed')
 wseed({
-  dir: '/tmp/webtorrent',
+  db: level('/tmp/webtorrent-mirror.wseed'),
+  store: function (n, opts) {
+    return fstore(n, {
+      path: '/tmp/webtorrent-mirror.store',
+      length: opts.length
+    })
+  },
   seeder: seeder,
   client: webtorrent()
 })
@@ -93,10 +100,15 @@ Seed to webtorrent given:
 
 * `opts.client` - a [webtorrent][1] instance
 * `opts.seeder` - a [hyperlog-seed][2] instance
-* `opts.dir` - directory to store the torrent data
+* `opts.db` - a [levelup][3] instance
+* `opts.store(chunkLength, opts)` - function that returns an
+[abstract-chunk-store][4] instance given a `chunkLength` and an `opts.length` of
+the entire file
 
 [1]: https://npmjs.com/package/webtorrent
 [2]: https://npmjs.com/package/hyperlog-seed
+[3]: https://npmjs.com/package/level
+[3]: https://npmjs.com/package/abstract-chunk-store
 
 # license
 

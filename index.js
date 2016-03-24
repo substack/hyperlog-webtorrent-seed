@@ -1,5 +1,4 @@
 var parseTorrent = require('parse-torrent')
-var mkdirp = require('mkdirp')
 var defaults = require('levelup-defaults')
 var EventEmitter = require('events').EventEmitter
 
